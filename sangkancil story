@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鹿与鳄鱼的互动故事</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chosen Palette: Earthly Harmony -->
+    <!-- Application Structure Plan: A vertical scrolling narrative structure is used to guide the user through the story of Sang Kancil. The application is divided into thematic sections: Introduction, The Dilemma, The Clever Plan, The Interactive Crossing, and The Moral. This linear flow mirrors the storytelling tradition and makes it easy for users to follow. The core of the experience is the interactive crossing, where the user actively triggers the climax of the story. This design choice transforms passive reading into an engaging activity, enhancing comprehension and enjoyment, especially for a narrative-based report. -->
+    <!-- Visualization & Content Choices: 
+        - Report Info: Sang Kancil, a clever mouse deer. Goal: Introduce the hero. Viz: A styled HTML div (🦌) with text. Interaction: None. Justification: Simple, direct introduction. Method: HTML/Tailwind.
+        - Report Info: A wide river full of crocodiles. Goal: Present the obstacle. Viz: A blue container representing the river with 'crocodile' divs. Interaction: Subtle animation. Justification: Visually establishes the challenge Kancil faces. Method: HTML/Tailwind/CSS Animation.
+        - Report Info: Kancil's plan to trick the crocodiles. Goal: Explain the strategy. Viz: Text blocks with an icon (💡). Interaction: None. Justification: Clearly communicates the turning point of the plot. Method: HTML/Tailwind.
+        - Report Info: Kancil crossing the river on the crocodiles' backs. Goal: Depict the story's climax. Viz: An interactive simulation. Interaction: A button click initiates an animation of Kancil hopping across the aligned crocodiles. Justification: This is the application's "wow" factor, making the user a participant in Kancil's clever escape. It's the most effective way to represent this action-oriented part of the story. Method: JavaScript manipulating Tailwind classes.
+        - Report Info: The story's moral. Goal: Conclude and summarize the key message. Viz: A clear, final text block. Interaction: None. Justification: Provides a satisfying conclusion and reinforces the story's theme of wit over might. Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @keyframes wave {
+            0% { transform: translateX(-20px); }
+            50% { transform: translateX(20px); }
+            100% { transform: translateX(-20px); }
+        }
+        .wave-animation {
+            animation: wave 4s ease-in-out infinite;
+        }
+        .scene {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            transition: opacity 1s ease-in-out;
+        }
+        .character {
+            transition: all 1s ease-in-out;
+        }
+        .crocodile {
+            transition: all 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            position: absolute;
+        }
+    </style>
+</head>
+<body class="bg-[#FDF6E3] text-[#654321]">
+
+    <div class="container mx-auto px-4">
+
+        <!-- Scene 1: Introduction -->
+        <section id="scene1" class="scene min-h-screen">
+            <div class="text-center">
+                <div id="kancil-icon-main" class="text-8xl mb-4">🦌</div>
+                <h1 class="text-4xl md:text-6xl font-bold text-[#D2691E]">鹿与鳄鱼的故事</h1>
+                <p class="mt-4 max-w-2xl mx-auto text-lg">
+                    在马来西亚茂密而充满生机的热带雨林深处，阳光透过层层叠叠的树冠，在潮湿的地面上洒下斑驳的光影。这里是无数生灵的家园，也流传着许多古老而神奇的传说。其中，最受动物们津津乐道的，莫过于一只名叫“鹿”的鼠鹿的故事。
+                    它身材娇小，比一般的鹿要小得多，但它却拥有森林里最敏锐的头脑和最灵活的思维。无论是凶猛的老虎，还是体型庞大的大象，都曾被这只小小的鼠鹿所折服。它的智慧和机敏，让它在弱肉强食的森林中，总能化险为夷，甚至帮助其他弱小的动物。因此，它的名字在森林中广为流传，成为了智慧和勇气的象征。让我们一起走进它的世界，见证它的又一个机智时刻。
+                </p>
+            </div>
+        </section>
+
+        <!-- Scene 2: The Dilemma -->
+        <section id="scene2" class="scene">
+            <div class="text-center w-full">
+                <h2 class="text-3xl font-bold mb-4">挑战出现：饥渴与危机</h2>
+                <p class="max-w-3xl mx-auto mb-8">
+                    一个炎热的午后，太阳炙烤着大地，森林里的每一片叶子都无精打采地耷拉着。鹿在林中奔波了许久，感到口干舌燥，急需寻找水源。它凭着灵敏的嗅觉，终于找到了一条清澈的河流。然而，当它兴高采烈地来到河边时，眼前的景象却让它心头一沉。
+                    河水宽阔而湍急，河面上平静之下，潜伏着无数双贪婪而凶狠的眼睛——那是这条河的霸主，一群凶猛的鳄鱼。它们巨大的身躯在水中若隐若现，随时准备扑向任何靠近河岸的猎物。鹿深知，如果贸然跳入河中，那无疑是自投罗网，成为鳄鱼们的盘中餐。它焦急地在河边踱步，一边是难耐的饥渴，一边是致命的威胁，它必须想出一个万全之策。
+                </p>
+                <div id="river" class="relative w-full h-64 bg-[#67B7D1] rounded-lg overflow-hidden shadow-lg border-4 border-[#4A90A4]">
+                    <!-- Crocodiles -->
+                    <div class="crocodile w-20 h-8 bg-[#3A6B35] rounded-full absolute" style="top: 20%; left: 10%;"></div>
+                    <div class="crocodile w-24 h-10 bg-[#3A6B35] rounded-full absolute" style="top: 50%; left: 30%;"></div>
+                    <div class="crocodile w-20 h-8 bg-[#3A6B35] rounded-full absolute" style="top: 70%; left: 60%;"></div>
+                    <div class="crocodile w-28 h-12 bg-[#3A6B35] rounded-full absolute" style="top: 35%; left: 80%;"></div>
+                     <!-- Kancil -->
+                    <div id="kancil-dilemma" class="character absolute text-5xl" style="bottom: 1rem; left: 1rem;">🦌</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 3: The Plan -->
+        <section id="scene3" class="scene">
+            <div class="text-center">
+                 <div class="text-6xl mb-4">💡</div>
+                <h2 class="text-3xl font-bold mb-4">灵光一闪：绝妙的脱身计</h2>
+                <p class="max-w-3xl mx-auto">
+                    鹿坐在河岸边，清澈的河水似乎在嘲笑着它的困境。然而，聪明的它并没有被绝望所困。它闭上眼睛，脑海中飞速地转动着，突然，一个大胆而绝妙的主意在它心中萌生。它决定利用鳄鱼们的贪婪和自大，将它们变成自己过河的“桥梁”。
+                    它清了清嗓子，用它那洪亮而富有穿透力的声音，对着河里大喊：“喂！河里的大家伙们！听好了！我这里有一个天大的好消息要告诉你们！”
+                    河里的鳄鱼们听到声音，纷纷探出头来，它们平日里傲慢而凶残，此刻却被“好消息”这个词吸引了注意力。一条又大又老的鳄鱼头领，浮到水面，眯着眼睛问道：“哦？什么好消息？小家伙，最好不是戏弄我们！”
+                    鹿故作神秘地笑了笑，然后大声说道：“国王陛下最近心情大好，决定为你们所有鳄鱼举办一场盛大的宴会！但是，他想知道你们到底有多少条鳄鱼，这样才能准备足够多的食物。你们必须排成一排，从河的这一边一直排到另一边，我才能准确地数出你们的数量！”
+                    鳄鱼们一听到“盛大的宴会”和“足够多的食物”，立刻把所有的疑虑抛诸脑后。它们的眼睛里闪烁着贪婪的光芒，仿佛已经闻到了美味佳肴的味道。鳄鱼头领迫不及待地命令所有的鳄鱼，立刻按照鹿的指示，一条接一条地浮出水面，背靠背地排成了一座稳固的“桥”，从河的这一边一直延伸到对岸。一场好戏即将上演，而鳄鱼们却浑然不知，自己成为了这场戏中的“配角”。
+                </p>
+                <div class="mt-6 bg-[#FEFBF3] p-6 rounded-lg shadow-md border border-[#D2B48C]">
+                    <p class="text-lg italic">“喂！鳄鱼们！国王陛下要举办一场盛大的宴会，需要我统计你们的数量来准备足够的食物！快排成一排，让我数一数！”</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scene 4: Interactive Crossing -->
+        <section id="scene4" class="scene min-h-screen">
+            <div class="text-center w-full">
+                <h2 class="text-3xl font-bold mb-4">互动时刻：鹿的华丽穿越！</h2>
+                <p id="interaction-intro" class="max-w-3xl mx-auto mb-8">
+                    鳄鱼们果然信以为真，纷纷浮出水面，它们巨大的身躯在河面上连成了一线，形成了一座天然的“桥梁”。鹿看着眼前完美无缺的“鳄鱼桥”，心中暗自得意。现在，是时候帮助鹿过河了！
+                    请点击下方的按钮，启动鹿的过河计划。每点击一次，鹿就会灵巧地从一条鳄鱼的背上跳到另一条鳄鱼的背上，同时大声数着数，假装认真地统计鳄鱼的数量。让我们看看，鹿能否成功抵达对岸，并且揭示它的真正目的！
+                </p>
+                <div id="crossing-river" class="relative w-full h-80 bg-[#67B7D1] rounded-lg overflow-hidden shadow-lg border-4 border-[#4A90A4] mb-8">
+                    <div id="kancil-actor" class="character absolute text-5xl z-10" style="bottom: 1rem; left: 1rem;">🦌</div>
+                    <div id="croc-container" class="w-full h-full">
+                        <div id="croc1" class="crocodile w-20 h-8 bg-[#3A6B35] rounded-md" style="top: 25%; left: 15%;"></div>
+                        <div id="croc2" class="crocodile w-24 h-10 bg-[#3A6B35] rounded-md" style="top: 60%; left: 25%;"></div>
+                        <div id="croc3" class="crocodile w-20 h-8 bg-[#3A6B35] rounded-md" style="top: 40%; left: 45%;"></div>
+                        <div id="croc4" class="crocodile w-28 h-12 bg-[#3A6B35] rounded-md" style="top: 75%; left: 55%;"></div>
+                        <div id="croc5" class="crocodile w-20 h-8 bg-[#3A6B35] rounded-md" style="top: 20%; left: 70%;"></div>
+                        <div id="croc6" class="crocodile w-24 h-10 bg-[#3A6B35] rounded-md" style="top: 50%; left: 85%;"></div>
+                    </div>
+                     <div id="count-display" class="absolute top-4 left-4 text-4xl font-bold text-white opacity-0 transition-opacity"></div>
+                </div>
+                <button id="cross-button" class="bg-[#D2691E] text-white font-bold py-3 px-8 rounded-full hover:bg-[#A0522D] transition-colors shadow-lg text-lg">
+                    帮助鹿过河
+                </button>
+                 <p id="success-message" class="mt-8 text-xl font-bold text-green-700 opacity-0 transition-opacity">成功了！鹿安全到达对岸！</p>
+            </div>
+        </section>
+
+        <!-- Scene 5: The Moral -->
+        <section id="scene5" class="scene">
+            <div class="text-center">
+                <div class="text-6xl mb-4">🏆</div>
+                <h2 class="text-3xl font-bold mb-4">智慧的胜利与永恒的传说</h2>
+                <p class="max-w-3xl mx-auto">
+                    当鹿的最后一次跳跃稳稳地落在河岸边时，它终于成功地抵达了安全地带。它回头望向那些仍然傻乎乎地排着队，等待“国王宴会”的鳄鱼们，禁不住放声大笑。
+                    “哈哈！谢谢你们，亲爱的鳄鱼们！现在我知道你们有多少条了！不过，根本就没有什么国王的宴会！这只是我的一个计策，为了过河而已！再见了！”鹿调皮地喊道，然后一溜烟地消失在森林深处。
+                    鳄鱼们这才恍然大悟，它们被这只小小的鼠鹿彻底愚弄了！它们气得在河里翻腾，拍打着水面，激起巨大的水花，但鹿早已跑得无影无踪了。
+                    从那天起，鹿的聪明才智再次得到了淋漓尽致的证明。这个故事迅速在森林里传开，成为了每一个动物口中津津乐道的传奇。它告诉我们一个深刻的道理：真正的力量并非总是体现在体型和蛮力上，而是隐藏在智慧和机敏之中。即使是最弱小的个体，只要善于思考，运用智慧，也能够战胜看似不可逾越的困难，甚至让强大的敌人束手无策。
+                    鹿的故事至今仍在马来西亚的民间广为流传，激励着一代又一代的人们在面对挑战时，要保持冷静，善于思考，运用智慧去解决问题。它成为了永恒的传说，象征着智慧的光芒永远闪耀。
+                </p>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 text-sm text-[#8B4513]">
+            &copy; 2025 鹿与鳄鱼的故事. 所有权利保留.
+        </footer>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const crossButton = document.getElementById('cross-button');
+            const kancilActor = document.getElementById('kancil-actor');
+            const crocContainer = document.getElementById('croc-container');
+            const successMessage = document.getElementById('success-message');
+            const countDisplay = document.getElementById('count-display');
+            const crocodiles = [
+                document.getElementById('croc1'),
+                document.getElementById('croc2'),
+                document.getElementById('croc3'),
+                document.getElementById('croc4'),
+                document.getElementById('croc5'),
+                document.getElementById('croc6')
+            ];
+
+            const initialKancilPos = { bottom: 1, left: 1 };
+            let currentCrocIndex = -1;
+            let count = 0;
+
+            function alignCrocodiles() {
+                const containerRect = crocContainer.getBoundingClientRect();
+                const startX = containerRect.width * 0.1;
+                const endX = containerRect.width * 0.9;
+                const yPositions = [0.25, 0.70, 0.45, 0.15, 0.80, 0.55]; // Random y offsets
+
+                crocodiles.forEach((croc, index) => {
+                    const positionX = startX + (endX - startX) * (index / (crocodiles.length - 1));
+                    croc.style.left = `${positionX - croc.offsetWidth / 2}px`;
+                    croc.style.top = `${containerRect.height * yPositions[index]}px`;
+                    croc.style.transform = 'scale(1.2)';
+                    croc.style.opacity = '1';
+                });
+            }
+
+            function moveKancilToCroc(crocElement, onComplete) {
+                const crocRect = crocElement.getBoundingClientRect();
+                const riverRect = crocContainer.getBoundingClientRect();
+
+                const targetLeft = crocRect.left - riverRect.left + (crocRect.width / 2) - (kancilActor.offsetWidth / 2);
+                const targetBottom = riverRect.height - (crocRect.top - riverRect.top + crocRect.height) - (kancilActor.offsetHeight / 4);
+
+                kancilActor.style.left = `${targetLeft}px`;
+            
+                // Jumping animation logic
+                const originalBottom = parseFloat(kancilActor.style.bottom);
+                const jumpHeight = 50; // Pixels to jump up
+
+                kancilActor.style.transition = 'none'; // Temporarily remove transition for immediate jump up
+                kancilActor.style.bottom = `${targetBottom + jumpHeight}px`;
+
+                setTimeout(() => {
+                    kancilActor.style.transition = 'all 0.5s ease-out'; // Apply transition for fall
+                    kancilActor.style.bottom = `${targetBottom}px`;
+                    setTimeout(onComplete, 500); // Complete after falling
+                }, 100); // Small delay to ensure jump up renders before fall
+            }
+
+
+            async function startCrossing() {
+                crossButton.disabled = true;
+                crossButton.textContent = '鹿正在过河...';
+                successMessage.classList.add('opacity-0');
+                countDisplay.classList.remove('opacity-0');
+
+                alignCrocodiles();
+
+                await new Promise(resolve => setTimeout(resolve, 2000)); // Allow crocodiles to align
+
+                for (let i = 0; i < crocodiles.length; i++) {
+                    count++;
+                    countDisplay.textContent = count;
+                    await new Promise(resolve => moveKancilToCroc(crocodiles[i], resolve));
+                }
+
+                // Move Kancil to the other side of the river (right bank)
+                const riverRect = crocContainer.getBoundingClientRect();
+                kancilActor.style.left = `${riverRect.width - kancilActor.offsetWidth - 20}px`;
+                kancilActor.style.bottom = `${initialKancilPos.bottom * 20}px`; // Adjust to be on the bank
+                
+                countDisplay.classList.add('opacity-0');
+                successMessage.classList.remove('opacity-0');
+                crossButton.textContent = '过河完成！';
+            }
+
+            crossButton.addEventListener('click', startCrossing);
+
+            // Initial positioning for Kancil on load
+            kancilActor.style.bottom = `${initialKancilPos.bottom}rem`;
+            kancilActor.style.left = `${initialKancilPos.left}rem`;
+        });
+    </script>
+</body>
+</html>
